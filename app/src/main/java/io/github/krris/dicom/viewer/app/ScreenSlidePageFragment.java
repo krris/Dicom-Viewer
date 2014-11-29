@@ -2,18 +2,14 @@ package io.github.krris.dicom.viewer.app;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.imebra.dicom.*;
 
-/**
- * A fragment representing a single step in a wizard. The fragment shows a dummy title indicating
- * the page number, along with some dummy text.
- *
- * <p>This class is used by the {@link CardFlipActivity} and {@link
- * ScreenSlideActivity} samples.</p>
- */
 public class ScreenSlidePageFragment extends Fragment {
     /**
      * The argument key for the page number this fragment represents.
@@ -56,7 +52,23 @@ public class ScreenSlidePageFragment extends Fragment {
         ((TextView) rootView.findViewById(android.R.id.text1)).setText(
                 getString(R.string.title_template_step, mPageNumber + 1));
 
+        addDicomImage(rootView);
+
         return rootView;
+    }
+
+    private void addDicomImage(ViewGroup viewGroup) {
+        Stream stream = new Stream();
+        stream.openFileRead("/storage/emulated/0/Download/dicom1.dcm");
+        // Build an internal representation of the Dicom file. Tags larger than 256 bytes
+        //  will be loaded on demand from the file
+        DataSet dataSet = CodecFactory.load(new StreamReader(stream), 256);
+        // Get the first image
+        Image image = dataSet.getImage(0);
+
+        TransformsChain transformsChain = new TransformsChain();
+        DicomView imageView = (DicomView) viewGroup.findViewById(R.id.imageView);
+        imageView.setImage(image, transformsChain);
     }
 
     /**

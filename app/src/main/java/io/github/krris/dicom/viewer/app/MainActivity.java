@@ -42,6 +42,8 @@ public class MainActivity extends ListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.loadLibrary("imebra_lib");
+
         setContentView(R.layout.activity_main);
 
         // Instantiate the list of samples.
