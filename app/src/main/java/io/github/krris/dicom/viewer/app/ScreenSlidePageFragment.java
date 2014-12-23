@@ -2,12 +2,10 @@ package io.github.krris.dicom.viewer.app;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.imebra.dicom.*;
 
 public class ScreenSlidePageFragment extends Fragment {
@@ -15,6 +13,7 @@ public class ScreenSlidePageFragment extends Fragment {
      * The argument key for the page number this fragment represents.
      */
     public static final String ARG_PAGE = "page";
+    private Images images = Images.getInstance();
 
     /**
      * The fragment's page number, which is set to the argument value for {@link #ARG_PAGE}.
@@ -59,7 +58,8 @@ public class ScreenSlidePageFragment extends Fragment {
 
     private void addDicomImage(ViewGroup viewGroup) {
         Stream stream = new Stream();
-        stream.openFileRead("/storage/emulated/0/Download/dicom1.dcm");
+//        stream.openFileRead("/storage/emulated/0/Download/dicom1.dcm");
+        stream.openFileRead(images.getCurrentImage());
         // Build an internal representation of the Dicom file. Tags larger than 256 bytes
         //  will be loaded on demand from the file
         DataSet dataSet = CodecFactory.load(new StreamReader(stream), 256);
@@ -69,6 +69,7 @@ public class ScreenSlidePageFragment extends Fragment {
         TransformsChain transformsChain = new TransformsChain();
         DicomView imageView = (DicomView) viewGroup.findViewById(R.id.imageView);
         imageView.setImage(image, transformsChain);
+
     }
 
     /**

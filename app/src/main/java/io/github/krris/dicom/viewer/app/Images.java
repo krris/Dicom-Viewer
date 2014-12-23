@@ -7,37 +7,43 @@ import java.util.ArrayList;
  * Copyright (c) 2014 krris. All rights reserved.
  */
 public class Images {
-    private int currentImage = 0;
-    private static ArrayList<String> paths = new ArrayList<>();
+    private static Images instance = new Images();
+    private static int currentImage = 0;
+    private static ArrayList<String> paths;
 
-    public Images() {
+    private Images() {
+        paths = new ArrayList<>();
         paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0001-0001.dcm");
         paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0002-0001.dcm");
         paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0003-0001.dcm");
     }
 
-    public String getNext() {
-        if (currentImage >= this.paths.size() - 1) {
-            return this.paths.get(currentImage);
+    public static String getNext() {
+        if (currentImage >= paths.size() - 1) {
+            return paths.get(currentImage);
         }
         currentImage++;
         return getCurrentImage();
     }
 
-    public String getPrevious() {
+    public static String getPrevious() {
         if (currentImage <= 0) {
-            return this.paths.get(currentImage);
+            return paths.get(currentImage);
         }
         currentImage--;
         return getCurrentImage();
     }
 
-    public String getCurrentImage() {
-        return this.paths.get(this.currentImage);
+    public static String getCurrentImage() {
+        return paths.get(currentImage);
+    }
+
+    public static Images getInstance() {
+        return instance;
     }
 
     public static void main(String[] args) {
-        Images images = new Images();
+        Images images = Images.getInstance();
         System.out.println(images.getCurrentImage());
         System.out.println(images.getNext());
         System.out.println(images.getNext());
