@@ -8,6 +8,7 @@ import java.util.List;
  * Copyright (c) 2014 krris. All rights reserved.
  */
 public class Patient {
+    private String name;
     private List<MedicalTest> medicalTests = new ArrayList<>();
 
     public void addMedicalTest(MedicalTest test) {
@@ -16,5 +17,13 @@ public class Patient {
 
     public List<MedicalTest> getAllMedicalTests() {
         return this.medicalTests;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

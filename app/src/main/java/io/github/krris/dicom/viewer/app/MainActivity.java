@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The launchpad activity for this sample project. This activity launches other activities that
  * demonstrate implementations of common animations.
@@ -31,9 +34,9 @@ public class MainActivity extends ListActivity {
         private CharSequence title;
         private Class<? extends Activity> activityClass;
 
-        public Sample(int titleResId, Class<? extends Activity> activityClass) {
+        public Sample(String string, Class<? extends Activity> activityClass) {
             this.activityClass = activityClass;
-            this.title = getResources().getString(titleResId);
+            this.title = string;
         }
 
         @Override
@@ -56,13 +59,17 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
 
         // Instantiate the list of samples.
-        mSamples = new Sample[]{
-//                new Sample(R.string.title_crossfade, CrossfadeActivity.class),
-//                new Sample(R.string.title_card_flip, CardFlipActivity.class),
-                new Sample(R.string.title_screen_slide, ScreenSlideActivity.class)
-//                new Sample(R.string.title_zoom, ZoomActivity.class),
-//                new Sample(R.string.title_layout_changes, LayoutChangesActivity.class),
-        };
+
+        List<Patient> patients = Patients.getInstance().getAllPatients();
+        List<Sample> samples = new ArrayList<>();
+        for (Patient patient : patients) {
+            samples.add(new Sample(patient.getName(), ScreenSlideActivity.class));
+        }
+        mSamples = samples.toArray(new Sample[samples.size()]);
+
+//        mSamples = new Sample[]{
+//                new Sample(R.string.title_screen_slide, ScreenSlideActivity.class)
+//        };
 
         setListAdapter(new ArrayAdapter<Sample>(this,
                 android.R.layout.simple_list_item_1,
