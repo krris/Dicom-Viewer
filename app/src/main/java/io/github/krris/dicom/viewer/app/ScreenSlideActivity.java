@@ -27,7 +27,7 @@ public class ScreenSlideActivity extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = Images.getInstance().getImagesSize();
+    private static int NUM_PAGES = 4;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -40,10 +40,17 @@ public class ScreenSlideActivity extends FragmentActivity {
      */
     private PagerAdapter mPagerAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
+
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            patientName = extras.getString("patient_name");
+//
+//        }
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);

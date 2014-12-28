@@ -14,7 +14,7 @@ public class ScreenSlidePageFragment extends Fragment {
      * The argument key for the page number this fragment represents.
      */
     public static final String ARG_PAGE = "page";
-    private Images images = Images.getInstance();
+    private Images images = new Images();
 
     /**
      * The fragment's page number, which is set to the argument value for {@link #ARG_PAGE}.
