@@ -63,13 +63,9 @@ public class MainActivity extends ListActivity {
         List<Patient> patients = Patients.getInstance().getAllPatients();
         List<Sample> samples = new ArrayList<>();
         for (Patient patient : patients) {
-            samples.add(new Sample(patient.getName(), ScreenSlideActivity.class));
+            samples.add(new Sample(patient.getName(), MedicalTestListActivity.class));
         }
         mSamples = samples.toArray(new Sample[samples.size()]);
-
-//        mSamples = new Sample[]{
-//                new Sample(R.string.title_screen_slide, ScreenSlideActivity.class)
-//        };
 
         setListAdapter(new ArrayAdapter<Sample>(this,
                 android.R.layout.simple_list_item_1,
@@ -89,7 +85,10 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         // Launch the sample associated with this list position.
-        startActivity(new Intent(MainActivity.this, mSamples[position].activityClass));
+        Intent intent = new Intent(MainActivity.this, mSamples[position].activityClass);
+        ArrayList<Patient> patients = (ArrayList<Patient>) Patients.getInstance().getAllPatients();
+        intent.putExtra("patient_name", patients.get(position).getName());
+        startActivity(intent);
     }
 
     private void showChooser() {
