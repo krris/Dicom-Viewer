@@ -3,17 +3,17 @@ package io.github.krris.dicom.viewer.app;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by krris on 20.12.14.
  * Copyright (c) 2014 krris. All rights reserved.
  */
 public class Images {
-    private static Images instance = new Images();
-    private static int currentImage = 0;
-    private static ArrayList<String> paths;
+    private int currentImage = 0;
+    private List<String> paths;
 
-    private Images() {
+    public Images() {
         paths = new ArrayList<>();
         paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0001-0001.dcm");
         paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0002-0001.dcm");
@@ -21,16 +21,16 @@ public class Images {
         paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0004-0001.dcm");
     }
 
-    public static int getImagesSize() {
+    public int getImagesSize() {
         return paths.size();
     }
 
-    public static String getImage(int index) {
+    public String getImage(int index) {
         Log.i("Image", paths.get(index));
         return paths.get(index);
     }
 
-    public static String getNext() {
+    public String getNext() {
         if (currentImage >= paths.size() - 1) {
             return paths.get(currentImage);
         }
@@ -38,7 +38,7 @@ public class Images {
         return getCurrentImage();
     }
 
-    public static String getPrevious() {
+    public String getPrevious() {
         if (currentImage <= 0) {
             return paths.get(currentImage);
         }
@@ -46,24 +46,11 @@ public class Images {
         return getCurrentImage();
     }
 
-    public static String getCurrentImage() {
+    public String getCurrentImage() {
         return paths.get(currentImage);
     }
 
-    public static Images getInstance() {
-        return instance;
-    }
-
-    public static void main(String[] args) {
-        Images images = Images.getInstance();
-        System.out.println(images.getCurrentImage());
-        System.out.println(images.getNext());
-        System.out.println(images.getNext());
-        System.out.println(images.getNext());
-
-        System.out.println(images.getPrevious());
-        System.out.println(images.getPrevious());
-        System.out.println(images.getPrevious());
-        System.out.println(images.getPrevious());
+    public void setPathsToImages(List<String> paths) {
+        this.paths = paths;
     }
 }
