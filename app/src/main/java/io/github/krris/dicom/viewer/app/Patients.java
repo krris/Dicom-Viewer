@@ -1,7 +1,11 @@
 package io.github.krris.dicom.viewer.app;
 
+import android.util.Log;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by krris on 28.12.14.
@@ -17,12 +21,6 @@ public class Patients {
 
     private Patients() {
         this.patients = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Patient patient = new Patient();
-            patient.setName("Pacjent nr: " + i);
-            patient.addMedicalTest(new MedicalTest());
-            this.patients.add(patient);
-        }
     }
 
     public List<Patient> getAllPatients() {
@@ -36,5 +34,28 @@ public class Patients {
             }
         }
         return null;
+    }
+
+    public void addPatient(String path) {
+        File file = new File(path);
+        String patientName = file.getName();
+        Log.i("Patient name", patientName);
+        Patient patient = new Patient(patientName);
+
+        File[] medicalTestsDirs = file.listFiles();
+        for (File testDir : medicalTestsDirs) {
+            String testName = testDir.getName();
+            Log.i("Test name", testName);
+
+            MedicalTest test = new MedicalTest(testName);
+            String[] images = file.list();
+            for(String image : images)
+                Log.i("Images", image);
+
+            test.setPathsToImages(images);
+            patient.addMedicalTest(test);
+        }
+
+        this.patients.add(patient);
     }
 }

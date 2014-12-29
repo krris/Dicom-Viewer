@@ -1,5 +1,6 @@
 package io.github.krris.dicom.viewer.app;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,8 +11,16 @@ public class MedicalTest {
     private String name = "DEFAULT NAME";
     private Images images = new Images();
 
+    public MedicalTest(String testName) {
+        this.name = testName;
+    }
+
     public void setPathsToImages(List<String> paths) {
         this.images.setPathsToImages(paths);
+    }
+
+    public void setPathsToImages(String[] paths) {
+        this.images.setPathsToImages(Arrays.asList(paths));
     }
 
     public void setName(String name) {

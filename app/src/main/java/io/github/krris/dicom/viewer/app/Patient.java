@@ -11,6 +11,10 @@ public class Patient {
     private String name;
     private List<MedicalTest> medicalTests = new ArrayList<>();
 
+    public Patient(String patientName) {
+        this.name = patientName;
+    }
+
     public void addMedicalTest(MedicalTest test) {
         this.medicalTests.add(test);
     }
