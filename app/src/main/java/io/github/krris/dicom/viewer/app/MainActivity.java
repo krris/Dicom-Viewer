@@ -60,6 +60,19 @@ public class MainActivity extends ListActivity {
 
         // Instantiate the list of samples.
 
+        instantiateList();
+
+        final Button button = (Button) findViewById(R.id.choose_file_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Toast.makeText(MainActivity.this, "choose file", Toast.LENGTH_SHORT).show();
+                showChooser();
+            }
+        });
+    }
+
+    private void instantiateList() {
         List<Patient> patients = Patients.getInstance().getAllPatients();
         List<Sample> samples = new ArrayList<>();
         for (Patient patient : patients) {
@@ -71,15 +84,6 @@ public class MainActivity extends ListActivity {
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
                 mSamples));
-
-        final Button button = (Button) findViewById(R.id.choose_file_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Toast.makeText(MainActivity.this, "choose file", Toast.LENGTH_SHORT).show();
-                showChooser();
-            }
-        });
     }
 
     @Override
@@ -120,6 +124,7 @@ public class MainActivity extends ListActivity {
                             Toast.makeText(MainActivity.this,
                                     "File Selected: " + path, Toast.LENGTH_LONG).show();
                             Patients.getInstance().addPatient(path);
+                            instantiateList();
                         } catch (Exception e) {
                             Log.e("FileSelectorTestActivity", "File select error", e);
                         }
