@@ -80,10 +80,34 @@ public class ScreenSlidePageFragment extends Fragment {
         // Get the first image
         Image image = dataSet.getImage(0);
 
+        // Monochrome images may have a modality transform
+        if(ColorTransformsFactory.isMonochrome(image.getColorSpace())) {
+            ModalityVOILUT modalityVOILUT = new ModalityVOILUT(dataSet);
+            if(!modalityVOILUT.isEmpty()) {
+                Image modalityImage = modalityVOILUT.allocateOutputImage(image, image.getSizeX(), image.getSizeY());
+                modalityVOILUT.runTransform(image, 0, 0, image.getSizeX(), image.getSizeY(), modalityImage, 0, 0);
+                image = modalityImage;
+            }
+        }
+
         TransformsChain transformsChain = new TransformsChain();
+
+        // Monochromatic image may require a presentation transform to display interesting data
+        if(ColorTransformsFactory.isMonochrome(image.getColorSpace())) {
+            VOILUT voilut = new VOILUT(dataSet);
+            int voilutId = voilut.getVOILUTId(0);
+            if(voilutId != 0) {
+                voilut.setVOILUT(voilutId);
+            } else {
+                // No presentation transform is present: here we calculate the optimal window/width (brightness,
+                //  contrast) and we will use that
+                voilut.applyOptimalVOI(image, 0, 0, image.getSizeX(), image.getSizeY());
+            }
+            transformsChain.addTransform(voilut);
+        }
+
         DicomView imageView = (DicomView) viewGroup.findViewById(R.id.imageView);
         imageView.setImage(image, transformsChain);
-
     }
 
     /**
