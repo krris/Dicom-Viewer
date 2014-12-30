@@ -83,6 +83,10 @@ public class MedicalTestListActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         // Launch the sample associated with this list position.
-        startActivity(new Intent(MedicalTestListActivity.this, mSamples[position].activityClass));
+        Intent intent = new Intent(MedicalTestListActivity.this, mSamples[position].activityClass);
+        ArrayList<MedicalTest> medicalTests = (ArrayList<MedicalTest>) Patients.getInstance().getPatient(patient.getName()).getAllMedicalTests();
+        intent.putExtra("medical_test", medicalTests.get(position).getName());
+        intent.putExtra("patient_name", patient.getName());
+        startActivity(intent);
     }
 }

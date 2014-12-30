@@ -23,6 +23,15 @@ public class Patient {
         return this.medicalTests;
     }
 
+    public MedicalTest getMedicalTest(String medicalTestName) {
+        for (MedicalTest test : medicalTests) {
+            if (medicalTestName.equals(test.getName())) {
+                return test;
+            }
+        }
+        return null;
+    }
+
     public String getName() {
         return name;
     }

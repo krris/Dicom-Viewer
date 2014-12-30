@@ -1,5 +1,7 @@
 package io.github.krris.dicom.viewer.app;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,8 +21,12 @@ public class MedicalTest {
         this.images.setPathsToImages(paths);
     }
 
-    public void setPathsToImages(String[] paths) {
-        this.images.setPathsToImages(Arrays.asList(paths));
+    public void setPathsToImages(File[] paths) {
+        ArrayList<String> pathsToImages = new ArrayList<>();
+        for (File file : paths)
+            pathsToImages.add(file.getAbsolutePath());
+
+        this.images.setPathsToImages(pathsToImages);
     }
 
     public void setName(String name) {

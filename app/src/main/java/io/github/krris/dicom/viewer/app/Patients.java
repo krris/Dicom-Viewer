@@ -48,9 +48,10 @@ public class Patients {
             Log.i("Test name", testName);
 
             MedicalTest test = new MedicalTest(testName);
-            String[] images = file.list();
-            for(String image : images)
-                Log.i("Images", image);
+            File[] images = testDir.listFiles();
+            for(File image: images) {
+                Log.i("Images", image.getAbsolutePath());
+            }
 
             test.setPathsToImages(images);
             patient.addMedicalTest(test);

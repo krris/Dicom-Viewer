@@ -14,20 +14,27 @@ public class ScreenSlidePageFragment extends Fragment {
      * The argument key for the page number this fragment represents.
      */
     public static final String ARG_PAGE = "page";
-    private Images images = new Images();
+    public static final String ARG_PATIENT_NAME= "patient_name";
+    public static final String ARG_MEDICAL_TEST_NAME= "medical_test_name";
+
+    private MedicalTest medicalTest;
 
     /**
      * The fragment's page number, which is set to the argument value for {@link #ARG_PAGE}.
      */
     private int mPageNumber;
+    private String mPatientName;
+    private String mMedicalTestName;
 
     /**
      * Factory method for this fragment class. Constructs a new fragment for the given page number.
      */
-    public static ScreenSlidePageFragment create(int pageNumber) {
+    public static ScreenSlidePageFragment create(int pageNumber, String patientName, String medicalTestName) {
         ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNumber);
+        args.putString(ARG_PATIENT_NAME, patientName);
+        args.putString(ARG_MEDICAL_TEST_NAME, medicalTestName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,7 +46,12 @@ public class ScreenSlidePageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPageNumber = getArguments().getInt(ARG_PAGE);
+        mMedicalTestName = getArguments().getString(ARG_MEDICAL_TEST_NAME);
+        mPatientName = getArguments().getString(ARG_PATIENT_NAME);
         Log.i("mPageNumber: ", "" + mPageNumber);
+        Log.i("mPatientName: ", "" + mPatientName);
+        Log.i("mMedicalTestName: ", "" + mMedicalTestName);
+        this.medicalTest = Patients.getInstance().getPatient(mPatientName).getMedicalTest(mMedicalTestName);
     }
 
     @Override
@@ -61,7 +73,7 @@ public class ScreenSlidePageFragment extends Fragment {
     private void addDicomImage(ViewGroup viewGroup) {
         Stream stream = new Stream();
 //        stream.openFileRead("/storage/emulated/0/Download/dicom1.dcm");
-        stream.openFileRead(images.getImage(mPageNumber));
+        stream.openFileRead(medicalTest.getImages().getImage(mPageNumber));
         // Build an internal representation of the Dicom file. Tags larger than 256 bytes
         //  will be loaded on demand from the file
         DataSet dataSet = CodecFactory.load(new StreamReader(stream), 256);

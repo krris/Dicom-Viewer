@@ -3,6 +3,7 @@ package io.github.krris.dicom.viewer.app;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,13 +14,13 @@ public class Images {
     private int currentImage = 0;
     private List<String> paths;
 
-    public Images() {
-        paths = new ArrayList<>();
-        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0001-0001.dcm");
-        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0002-0001.dcm");
-        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0003-0001.dcm");
-        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0004-0001.dcm");
-    }
+//    public Images() {
+//        paths = new ArrayList<>();
+//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0001-0001.dcm");
+//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0002-0001.dcm");
+//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0003-0001.dcm");
+//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0004-0001.dcm");
+//    }
 
     public int getImagesSize() {
         return paths.size();
@@ -51,6 +52,6 @@ public class Images {
     }
 
     public void setPathsToImages(List<String> paths) {
-        this.paths = paths;
+        this.paths = new ArrayList<>(paths);
     }
 }
