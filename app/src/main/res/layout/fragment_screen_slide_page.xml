@@ -18,10 +18,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp" />
 
+        <Button android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_animation"
+                android:text="@string/animation"/>
+
         <com.imebra.dicom.DicomView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView"/>
+
+
     </LinearLayout>
 
 </ScrollView>
