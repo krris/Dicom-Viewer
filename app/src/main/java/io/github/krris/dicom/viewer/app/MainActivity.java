@@ -3,17 +3,15 @@ package io.github.krris.dicom.viewer.app;
 
 import android.app.Activity;
 import android.app.ListActivity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.ipaulpro.afilechooser.utils.FileUtils;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.api.services.drive.Drive;
 import net.rdrei.android.dirchooser.DirectoryChooserActivity;
 
 import java.util.ArrayList;
@@ -60,7 +58,6 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
 
         // Instantiate the list of samples.
-
         instantiateList();
 
         final Button button = (Button) findViewById(R.id.choose_file_button);
