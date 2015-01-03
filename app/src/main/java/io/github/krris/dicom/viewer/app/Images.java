@@ -31,6 +31,14 @@ public class Images {
         return paths.get(index);
     }
 
+    public void nextImageToDisplay() {
+        if (currentImage >= paths.size() - 1) {
+            currentImage = 0;
+        } else {
+            currentImage++;
+        }
+    }
+
     public String getNext() {
         if (currentImage >= paths.size() - 1) {
             return paths.get(currentImage);

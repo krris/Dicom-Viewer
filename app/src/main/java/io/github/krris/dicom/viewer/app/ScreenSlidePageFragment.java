@@ -1,13 +1,20 @@
 package io.github.krris.dicom.viewer.app;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.imebra.dicom.*;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class ScreenSlidePageFragment extends Fragment {
     /**
@@ -52,6 +59,8 @@ public class ScreenSlidePageFragment extends Fragment {
         Log.i("mPatientName: ", "" + mPatientName);
         Log.i("mMedicalTestName: ", "" + mMedicalTestName);
         this.medicalTest = Patients.getInstance().getPatient(mPatientName).getMedicalTest(mMedicalTestName);
+
+
     }
 
     @Override
@@ -65,6 +74,17 @@ public class ScreenSlidePageFragment extends Fragment {
         ((TextView) rootView.findViewById(android.R.id.text1)).setText(
                 getString(R.string.title_template_step, mPageNumber + 1));
 
+        final Button button = (Button) rootView.findViewById(R.id.play_animation);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Intent intent = new Intent(getActivity(), Animation.class);
+                intent.putExtra(ARG_MEDICAL_TEST_NAME, mMedicalTestName);
+                intent.putExtra(ARG_PATIENT_NAME, mPatientName);
+                startActivity(intent);
+            }
+        });
+
         addDicomImage(rootView);
 
         return rootView;
@@ -73,13 +93,13 @@ public class ScreenSlidePageFragment extends Fragment {
     private void addDicomImage(ViewGroup viewGroup) {
         Stream stream = new Stream();
 //        stream.openFileRead("/storage/emulated/0/Download/dicom1.dcm");
+
         stream.openFileRead(medicalTest.getImages().getImage(mPageNumber));
         // Build an internal representation of the Dicom file. Tags larger than 256 bytes
         //  will be loaded on demand from the file
         DataSet dataSet = CodecFactory.load(new StreamReader(stream), 256);
         // Get the first image
         Image image = dataSet.getImage(0);
-
         // Monochrome images may have a modality transform
         if(ColorTransformsFactory.isMonochrome(image.getColorSpace())) {
             ModalityVOILUT modalityVOILUT = new ModalityVOILUT(dataSet);
