@@ -2,70 +2,26 @@ package io.github.krris.dicom.viewer.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 import com.imebra.dicom.*;
-
-import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by krris on 02.01.15.
  * Copyright (c) 2015 krris. All rights reserved.
  */
-public class Animation extends Activity {
-    private DicomView dicomView;
-    private Timer timer;
-    private int index;
-    private MyHandler handler;
-
-    public void onCreate(Bundle savedInstanceState) {
+public class Animationcopy extends Activity {
+    // Called when the activity is first created.
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animation_activity);
-
+        // LOAD THE LIBRARY
         System.loadLibrary("imebra_lib");
-
-        handler = new MyHandler();
-        dicomView = (DicomView) findViewById(R.id.dicomView);
-
-        index=0;
-        timer= new Timer();
-        timer.schedule(new TickClass(), 500, 200);
     }
-
-    private class TickClass extends TimerTask {
-        @Override
-        public void run() {
-            handler.sendEmptyMessage(index);
-            index++;
-        }
-    }
-
-    private class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-//                _imagView.setImageBitmap(bmp);
-            Log.i("Loaing Image: ", index + "");
-            addDicomImage();
-        }
-    }
-
+    // Called when the activity starts
     public void onStart()
     {
         super.onStart();
-        addDicomImage();
-    }
-
-    public void addDicomImage() {
         // Open the dicom file from sdcard
         Stream stream = new Stream();
 //        stream.openFileRead("/sdcard/Download/87FDH4G2.dcm");
