@@ -47,7 +47,7 @@ public class Animation extends Activity {
 
         index=0;
         timer= new Timer();
-        timer.schedule(new TickClass(), 500, 1000);
+        timer.schedule(new TickClass(), 500, 500);
     }
 
     private class TickClass extends TimerTask {
@@ -62,9 +62,7 @@ public class Animation extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
-//                _imagView.setImageBitmap(bmp);
-            Log.i("Loaing Image: ", index + "");
+            Log.i("Displaying Image: ", images.getCurrentImage());
             displayDicomImage(images.getCurrentImage());
         }
     }
@@ -73,6 +71,13 @@ public class Animation extends Activity {
     {
         super.onStart();
         displayDicomImage(images.getCurrentImage());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.timer.cancel();
+        this.timer.purge();
     }
 
     private void displayDicomImage(String path) {

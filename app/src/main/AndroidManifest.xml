@@ -32,7 +32,9 @@
                   android:parentActivityName=".MainActivity">
         </activity>
 
-        <activity android:name=".Animation" android:label="Animation">
+        <activity android:name=".Animation"
+                  android:label="Animation"
+                  android:parentActivityName=".ScreenSlideActivity">
         </activity>
 
         <activity android:name=".ScreenSlideActivity"
