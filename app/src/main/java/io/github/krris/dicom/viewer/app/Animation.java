@@ -15,9 +15,7 @@ import java.util.TimerTask;
  * Copyright (c) 2015 krris. All rights reserved.
  */
 public class Animation extends Activity {
-    private DicomView dicomView;
     private Timer timer;
-    private int index;
     private MyHandler handler;
 
     public static final String ARG_PATIENT_NAME= "patient_name";
@@ -43,9 +41,7 @@ public class Animation extends Activity {
             this.images = medicalTest.getImages();
         }
         handler = new MyHandler();
-        dicomView = (DicomView) findViewById(R.id.dicomView);
 
-        index=0;
         timer= new Timer();
         timer.schedule(new TickClass(), 500, 500);
     }
@@ -53,7 +49,8 @@ public class Animation extends Activity {
     private class TickClass extends TimerTask {
         @Override
         public void run() {
-            handler.sendEmptyMessage(index);
+            int dummyMessage = 0;
+            handler.sendEmptyMessage(dummyMessage);
             images.nextImageToDisplay();
         }
     }
@@ -67,8 +64,7 @@ public class Animation extends Activity {
         }
     }
 
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
         displayDicomImage(images.getCurrentImage());
     }
