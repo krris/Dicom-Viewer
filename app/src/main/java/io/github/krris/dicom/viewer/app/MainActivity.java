@@ -3,8 +3,11 @@ package io.github.krris.dicom.viewer.app;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.services.drive.Drive;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 import net.rdrei.android.dirchooser.DirectoryChooserActivity;
 
 import java.util.ArrayList;
@@ -94,24 +98,42 @@ public class MainActivity extends ListActivity {
     }
 
     private void showChooser() {
-        final Intent chooserIntent = new Intent(this, DirectoryChooserActivity.class);
-        // Optional: Allow users to create a new directory with a fixed name.
-        chooserIntent.putExtra(DirectoryChooserActivity.EXTRA_NEW_DIR_NAME, "DirChooserSample");
-        startActivityForResult(chooserIntent, REQUEST_CODE);
+        // Use the GET_CONTENT intent from the utility class
+        Intent target = FileUtils.createGetContentIntent();
+        // Create the chooser Intent
+        Intent intent = Intent.createChooser(
+                target, getString(R.string.chooser_title));
+        try {
+            startActivityForResult(intent, REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            // The reason for the existence of aFileChooser
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == DirectoryChooserActivity.RESULT_CODE_DIR_SELECTED) {
-                final String path = data.getStringExtra(DirectoryChooserActivity.RESULT_SELECTED_DIR);
-                Toast.makeText(MainActivity.this, "File Selected: " + path, Toast.LENGTH_LONG).show();
-                Patients.getInstance().addPatient(path);
-                instantiateList();
-            } else {
-                // Nothing selected
-            }
+        switch (requestCode) {
+            case REQUEST_CODE:
+                // If the file selection was successful
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        // Get the URI of the selected file
+                        final Uri uri = data.getData();
+                        Log.i(TAG, "Uri = " + uri.toString());
+                        try {
+                            // Get the file path from the URI
+                            final String path = FileUtils.getPath(this, uri);
+                            Toast.makeText(MainActivity.this,
+                                    "File Selected: " + path, Toast.LENGTH_LONG).show();
+                            Patients.getInstance().addPatient(path);
+                            instantiateList();
+                        } catch (Exception e) {
+                            Log.e("FileSelectorTestActivity", "File select error", e);
+                        }
+                    }
+                }
+                break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

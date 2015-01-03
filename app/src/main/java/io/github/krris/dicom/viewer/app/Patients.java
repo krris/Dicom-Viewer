@@ -38,6 +38,10 @@ public class Patients {
 
     public void addPatient(String path) {
         File file = new File(path);
+        if (file.getName().endsWith(".dcm")) {
+            file = file.getParentFile().getParentFile();
+        }
+
         String patientName = file.getName();
         Log.i("Patient name", patientName);
         Patient patient = new Patient(patientName);
