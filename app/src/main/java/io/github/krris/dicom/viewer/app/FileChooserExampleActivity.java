@@ -65,7 +65,6 @@ public class FileChooserExampleActivity extends Activity {
                         // Get the URI of the selected file
                         final Uri uri = data.getData();
                         Log.i(TAG, "Uri = " + uri.toString());
-//                        Log.i("path", " = " + FileUtil);
                         try {
                             // Get the file path from the URI
                             final String path = FileUtils.getPath(this, uri);

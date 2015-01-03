@@ -14,14 +14,6 @@ public class Images {
     private int currentImage = 0;
     private List<String> paths;
 
-//    public Images() {
-//        paths = new ArrayList<>();
-//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0001-0001.dcm");
-//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0002-0001.dcm");
-//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0003-0001.dcm");
-//        paths.add("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0004-0001.dcm");
-//    }
-
     public int getImagesSize() {
         return paths.size();
     }
@@ -37,22 +29,6 @@ public class Images {
         } else {
             currentImage++;
         }
-    }
-
-    public String getNext() {
-        if (currentImage >= paths.size() - 1) {
-            return paths.get(currentImage);
-        }
-        currentImage++;
-        return getCurrentImage();
-    }
-
-    public String getPrevious() {
-        if (currentImage <= 0) {
-            return paths.get(currentImage);
-        }
-        currentImage--;
-        return getCurrentImage();
     }
 
     public String getCurrentImage() {
