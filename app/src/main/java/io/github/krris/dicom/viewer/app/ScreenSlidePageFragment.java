@@ -92,9 +92,6 @@ public class ScreenSlidePageFragment extends Fragment {
         Stream stream = new Stream();
 //        stream.openFileRead("/storage/emulated/0/Download/dicom1.dcm");
 
-        int i = new Random().nextInt(10);
-        mPageNumber = i;
-
         stream.openFileRead(medicalTest.getImages().getImage(mPageNumber));
         // Build an internal representation of the Dicom file. Tags larger than 256 bytes
         //  will be loaded on demand from the file

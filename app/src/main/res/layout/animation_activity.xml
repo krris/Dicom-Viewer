@@ -16,14 +16,14 @@
 
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp"/>
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <com.imebra.dicom.DicomView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/dicomView"/>
+</LinearLayout>
