@@ -5,14 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 import com.imebra.dicom.*;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,25 +20,41 @@ public class Animation extends Activity {
     private int index;
     private MyHandler handler;
 
+    public static final String ARG_PATIENT_NAME= "patient_name";
+    public static final String ARG_MEDICAL_TEST_NAME= "medical_test_name";
+
+    private String mPatientName;
+    private String mMedicalTestName;
+    private Images images;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animation_activity);
 
-        System.loadLibrary("imebra_lib");
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mPatientName = extras.getString(ARG_PATIENT_NAME);
+            Log.i("ARG_PATIENT_NAME", mPatientName);
+            mMedicalTestName = extras.getString(ARG_MEDICAL_TEST_NAME);
+            Log.i("ARG_MEDICAL_TEST_NAME", mMedicalTestName);
 
+            Patient patient = Patients.getInstance().getPatient(mPatientName);
+            MedicalTest medicalTest = patient.getMedicalTest(mMedicalTestName);
+            this.images = medicalTest.getImages();
+        }
         handler = new MyHandler();
         dicomView = (DicomView) findViewById(R.id.dicomView);
 
         index=0;
         timer= new Timer();
-        timer.schedule(new TickClass(), 500, 200);
+        timer.schedule(new TickClass(), 500, 1000);
     }
 
     private class TickClass extends TimerTask {
         @Override
         public void run() {
             handler.sendEmptyMessage(index);
-            index++;
+            images.nextImageToDisplay();
         }
     }
 
@@ -55,21 +65,20 @@ public class Animation extends Activity {
 
 //                _imagView.setImageBitmap(bmp);
             Log.i("Loaing Image: ", index + "");
-            addDicomImage();
+            displayDicomImage(images.getCurrentImage());
         }
     }
 
     public void onStart()
     {
         super.onStart();
-        addDicomImage();
+        displayDicomImage(images.getCurrentImage());
     }
 
-    public void addDicomImage() {
+    private void displayDicomImage(String path) {
         // Open the dicom file from sdcard
         Stream stream = new Stream();
-//        stream.openFileRead("/sdcard/Download/87FDH4G2.dcm");
-        stream.openFileRead("/storage/emulated/0/Download/pacjent1/tf2d15_retro_2ch_cine - 6/IM-0006-0001-0001.dcm");
+        stream.openFileRead(path);
         // Build an internal representation of the Dicom file. Tags larger than 256 bytes
         //  will be loaded on demand from the file
         DataSet dataSet = CodecFactory.load(new StreamReader(stream), 256);
@@ -114,4 +123,5 @@ public class Animation extends Activity {
         DicomView imageView = (DicomView)findViewById(R.id.dicomView);
         imageView.setImage(image, transformsChain);
     }
+
 }

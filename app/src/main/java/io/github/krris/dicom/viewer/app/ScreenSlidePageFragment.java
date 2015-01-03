@@ -79,6 +79,8 @@ public class ScreenSlidePageFragment extends Fragment {
             public void onClick(View v) {
                 // Perform action on click
                 Intent intent = new Intent(getActivity(), Animation.class);
+                intent.putExtra(ARG_MEDICAL_TEST_NAME, mMedicalTestName);
+                intent.putExtra(ARG_PATIENT_NAME, mPatientName);
                 startActivity(intent);
             }
         });

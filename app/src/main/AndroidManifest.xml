@@ -16,7 +16,8 @@
             <meta-data android:name="com.google.android.apps.drive.APP_ID" android:value="id=1234567890" />
 
             <intent-filter>
-
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
                 <data android:mimeType="application/vnd.google-apps.drive-sdk.1234567890" />
@@ -32,10 +33,6 @@
         </activity>
 
         <activity android:name=".Animation" android:label="Animation">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".ScreenSlideActivity"
