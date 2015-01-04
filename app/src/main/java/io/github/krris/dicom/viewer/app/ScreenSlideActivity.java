@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,7 +28,7 @@ public class ScreenSlideActivity extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 5;
+    private static int NUM_PAGES = 1;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -39,11 +40,30 @@ public class ScreenSlideActivity extends FragmentActivity {
      * The pager adapter, which provides the pages to the view pager widget.
      */
     private PagerAdapter mPagerAdapter;
+    private String patientName;
+    private String medicalTestName;
+    private String seriesName;
+    private Series series;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            patientName = extras.getString("patient_name");
+            Patient patient = Patients.getInstance().getPatient(patientName);
+
+            medicalTestName = extras.getString("medical_test");
+            seriesName = extras.getString("series_name");
+
+            MedicalTest medicalTest = patient.getMedicalTest(medicalTestName);
+            series = medicalTest.getSeries(seriesName);
+            NUM_PAGES = series.getImages().getImagesSize();
+            Log.i("Images nr:", "" + NUM_PAGES);
+        }
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -114,7 +134,7 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ScreenSlidePageFragment.create(position);
+            return ScreenSlidePageFragment.create(position, patientName, medicalTestName, seriesName);
         }
 
         @Override
