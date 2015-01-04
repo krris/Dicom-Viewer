@@ -42,6 +42,8 @@ public class ScreenSlideActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
     private String patientName;
     private String medicalTestName;
+    private String seriesName;
+    private Series series;
 
 
     @Override
@@ -55,8 +57,11 @@ public class ScreenSlideActivity extends FragmentActivity {
             Patient patient = Patients.getInstance().getPatient(patientName);
 
             medicalTestName = extras.getString("medical_test");
+            seriesName = extras.getString("series_name");
+
             MedicalTest medicalTest = patient.getMedicalTest(medicalTestName);
-            NUM_PAGES = medicalTest.getImages().getImagesSize();
+            series = medicalTest.getSeries(seriesName);
+            NUM_PAGES = series.getImages().getImagesSize();
             Log.i("Images nr:", "" + NUM_PAGES);
         }
 
@@ -129,7 +134,7 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ScreenSlidePageFragment.create(position, patientName, medicalTestName);
+            return ScreenSlidePageFragment.create(position, patientName, medicalTestName, seriesName);
         }
 
         @Override

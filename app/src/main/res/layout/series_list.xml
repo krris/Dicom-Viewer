@@ -14,10 +14,16 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Adds an item to the list. -->
-    <item android:id="@+id/action_previous"
-        android:title="@string/action_previous"
-        android:showAsAction="ifRoom|withText" />
-</menu>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@android:id/list"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp" android:layout_above="@+id/choose_file_button"/>
+
+</RelativeLayout>

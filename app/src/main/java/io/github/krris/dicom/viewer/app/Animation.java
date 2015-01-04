@@ -20,10 +20,12 @@ public class Animation extends Activity {
 
     public static final String ARG_PATIENT_NAME= "patient_name";
     public static final String ARG_MEDICAL_TEST_NAME= "medical_test_name";
+    public static final String ARG_SERIES_NAME= "series_name";
 
     private String mPatientName;
     private String mMedicalTestName;
     private Images images;
+    private String mSeriesName;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +37,16 @@ public class Animation extends Activity {
             Log.i("ARG_PATIENT_NAME", mPatientName);
             mMedicalTestName = extras.getString(ARG_MEDICAL_TEST_NAME);
             Log.i("ARG_MEDICAL_TEST_NAME", mMedicalTestName);
+            mSeriesName = extras.getString(ARG_SERIES_NAME);
 
             Patient patient = Patients.getInstance().getPatient(mPatientName);
-            MedicalTest medicalTest = patient.getMedicalTest(mMedicalTestName);
-            this.images = medicalTest.getImages();
+            Series series = patient.getMedicalTest(mMedicalTestName).getSeries(mSeriesName);
+            this.images = series.getImages();
         }
-        handler = new MyHandler();
 
-        timer= new Timer();
-        timer.schedule(new TickClass(), 500, 500);
+        this.handler = new MyHandler();
+        this.timer= new Timer();
+        this.timer.schedule(new TickClass(), 500, 500);
     }
 
     private class TickClass extends TimerTask {
@@ -96,10 +99,6 @@ public class Animation extends Activity {
                 image = modalityImage;
             }
         }
-        // Just for fun: get the color space and the patient name
-        String colorSpace = image.getColorSpace();
-        String patientName = dataSet.getString(0x0010, 0, 0x0010, 0);
-        String dataType = dataSet.getDataType(0x0010, 0, 0x0010);
         // Allocate a transforms chain: contains all the transforms to execute before displaying
         //  an image
         TransformsChain transformsChain = new TransformsChain();

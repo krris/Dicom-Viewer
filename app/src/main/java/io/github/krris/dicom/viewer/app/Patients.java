@@ -1,10 +1,14 @@
 package io.github.krris.dicom.viewer.app;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -13,54 +17,64 @@ import java.util.List;
  */
 public class Patients {
     private static Patients ourInstance = new Patients();
-    private List<Patient> patients;
+    private Map<String,Patient> patients;
 
     public static Patients getInstance() {
         return ourInstance;
     }
 
     private Patients() {
-        this.patients = new ArrayList<>();
+        this.patients = new HashMap<>();
     }
 
-    public List<Patient> getAllPatients() {
+    public Map<String, Patient> getAllPatients() {
         return this.patients;
     }
 
     public Patient getPatient(String name) {
-        for (Patient patient : patients) {
-            if (patient.getName().equals(name)) {
-                return patient;
-            }
-        }
-        return null;
+        return this.patients.get(name);
     }
 
-    public void addPatient(String path) {
+    private boolean patientExists(String name) {
+        return this.patients.containsKey(name);
+    }
+
+    public void addOneImage(String path) {
+        Log.i("ADDING IMAGE", path);
+        DicomData dicomData = new DicomData(path);
+
+        String patientName = dicomData.getPatientName();
+        if (this.patientExists(patientName)) {
+            this.patients.get(patientName).addOneImage(dicomData);
+        } else {
+            Patient patient = new Patient(patientName);
+            patient.addOneImage(dicomData);
+            this.patients.put(patientName, patient);
+        }
+    }
+
+    public void addPatient(String path, Context context) {
         File file = new File(path);
-        if (file.getName().endsWith(".dcm")) {
-            file = file.getParentFile().getParentFile();
+
+        if (file.isDirectory()) {
+            addRecursivelyImagesInDir(context, file);
+        } else {
+            addOneImage(file.getAbsolutePath());
+        }
+    }
+
+    private void addRecursivelyImagesInDir(Context context, File file) {
+        String[] extensions = {"dcm"};
+        boolean recursive = true;
+        Collection<File> iterator = FileUtils.listFiles(file, extensions, recursive);
+
+        if (iterator.isEmpty()) {
+            Toast.makeText(context, "Cannot find any files with .dcm extension!", Toast.LENGTH_SHORT);
+            return;
         }
 
-        String patientName = file.getName();
-        Log.i("Patient name", patientName);
-        Patient patient = new Patient(patientName);
-
-        File[] medicalTestsDirs = file.listFiles();
-        for (File testDir : medicalTestsDirs) {
-            String testName = testDir.getName();
-            Log.i("Test name", testName);
-
-            MedicalTest test = new MedicalTest(testName);
-            File[] images = testDir.listFiles();
-            for(File image: images) {
-                Log.i("Images", image.getAbsolutePath());
-            }
-
-            test.setPathsToImages(images);
-            patient.addMedicalTest(test);
+        for (File f : iterator) {
+            addOneImage(f.getAbsolutePath());
         }
-
-        this.patients.add(patient);
     }
 }

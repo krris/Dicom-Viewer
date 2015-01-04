@@ -1,7 +1,6 @@
 package io.github.krris.dicom.viewer.app;
 
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -13,13 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.api.services.drive.Drive;
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import net.rdrei.android.dirchooser.DirectoryChooserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The launchpad activity for this sample project. This activity launches other activities that
@@ -28,25 +25,6 @@ import java.util.List;
 public class MainActivity extends ListActivity {
     private static final int REQUEST_CODE = 6384; // onActivityResult request
     private static final String TAG = "FileChooserExampleActivity";
-
-    /**
-     * This class describes an individual sample (the sample title, and the activity class that
-     * demonstrates this sample).
-     */
-    private class Sample {
-        private CharSequence title;
-        private Class<? extends Activity> activityClass;
-
-        public Sample(String string, Class<? extends Activity> activityClass) {
-            this.activityClass = activityClass;
-            this.title = string;
-        }
-
-        @Override
-        public String toString() {
-            return title.toString();
-        }
-    }
 
     /**
      * The collection of all samples in the app. This gets instantiated in {@link
@@ -75,9 +53,9 @@ public class MainActivity extends ListActivity {
     }
 
     private void instantiateList() {
-        List<Patient> patients = Patients.getInstance().getAllPatients();
+        Map<String, Patient> patients = Patients.getInstance().getAllPatients();
         List<Sample> samples = new ArrayList<>();
-        for (Patient patient : patients) {
+        for (Patient patient : patients.values()) {
             samples.add(new Sample(patient.getName(), MedicalTestListActivity.class));
         }
         mSamples = samples.toArray(new Sample[samples.size()]);
@@ -91,9 +69,8 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         // Launch the sample associated with this list position.
-        Intent intent = new Intent(MainActivity.this, mSamples[position].activityClass);
-        ArrayList<Patient> patients = (ArrayList<Patient>) Patients.getInstance().getAllPatients();
-        intent.putExtra("patient_name", patients.get(position).getName());
+        Intent intent = new Intent(MainActivity.this, mSamples[position].getActivityClass());
+        intent.putExtra("patient_name", mSamples[position].getTitle());
         startActivity(intent);
     }
 
@@ -125,7 +102,7 @@ public class MainActivity extends ListActivity {
                             final String path = FileUtils.getPath(this, uri);
                             Toast.makeText(MainActivity.this,
                                     "File Selected: " + path, Toast.LENGTH_LONG).show();
-                            Patients.getInstance().addPatient(path);
+                            Patients.getInstance().addPatient(path, this);
                             instantiateList();
                         } catch (Exception e) {
                             Log.e("FileSelectorTestActivity", "File select error", e);
