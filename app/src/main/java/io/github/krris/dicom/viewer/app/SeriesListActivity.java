@@ -31,7 +31,6 @@ public class SeriesListActivity extends ListActivity{
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String patientName = extras.getString("patient_name");
-            Toast.makeText(this, patientName, Toast.LENGTH_SHORT).show();
             patient = Patients.getInstance().getPatient(patientName);
             medicalTestName = extras.getString("medical_test");
         }

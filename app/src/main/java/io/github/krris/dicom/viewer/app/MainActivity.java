@@ -106,7 +106,7 @@ public class MainActivity extends ListActivity {
                             final String path = FileUtils.getPath(this, uri);
                             Toast.makeText(MainActivity.this,
                                     "File Selected: " + path, Toast.LENGTH_LONG).show();
-                            Patients.getInstance().addPatient(path);
+                            Patients.getInstance().addPatient(path, this);
                             instantiateList();
                         } catch (Exception e) {
                             Log.e("FileSelectorTestActivity", "File select error", e);

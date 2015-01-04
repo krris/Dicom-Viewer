@@ -42,4 +42,8 @@ public class Images {
     public void setPathsToImages(List<String> paths) {
         this.paths = new ArrayList<>(paths);
     }
+
+    public boolean contains(String imagePath) {
+        return this.paths.contains(imagePath);
+    }
 }

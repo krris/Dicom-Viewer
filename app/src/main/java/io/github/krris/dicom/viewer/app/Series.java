@@ -25,6 +25,8 @@ public class Series {
     }
 
     public void addImage(String imagePath) {
-        this.images.addImage(imagePath);
+        if (!images.contains(imagePath)) {
+            this.images.addImage(imagePath);
+        }
     }
 }

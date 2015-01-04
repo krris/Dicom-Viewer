@@ -68,7 +68,7 @@ public class FileChooserExampleActivity extends Activity {
                         try {
                             // Get the file path from the URI
                             final String path = FileUtils.getPath(this, uri);
-                            Patients.getInstance().addPatient(path);
+                            Patients.getInstance().addPatient(path, this);
                             Toast.makeText(FileChooserExampleActivity.this,
                                     "File Selected: " + path, Toast.LENGTH_LONG).show();
                         } catch (Exception e) {
