@@ -3,7 +3,6 @@ package io.github.krris.dicom.viewer.app;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

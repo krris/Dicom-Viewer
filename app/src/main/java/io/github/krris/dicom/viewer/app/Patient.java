@@ -1,8 +1,6 @@
 package io.github.krris.dicom.viewer.app;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
