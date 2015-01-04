@@ -37,6 +37,12 @@ public class Patients {
     }
 
     public void addPatient(String path) {
+        // jesli zaznaczono jedno zdjecje dcm => otwieramy i doda
+
+
+
+
+
         File file = new File(path);
         if (file.getName().endsWith(".dcm")) {
             file = file.getParentFile().getParentFile();

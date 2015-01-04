@@ -135,6 +135,12 @@ public class ScreenSlidePageFragment extends Fragment {
                 image = modalityImage;
             }
         }
+
+        String patientName = dataSet.getString(0x0010, 0, 0x0010, 0);
+        Log.i("patient name from dcm", patientName);
+        String studyDesc = dataSet.getString(0x0008, 0, 0x1030, 0);
+        String seriesDesc = dataSet.getString(0x0008,0,0x103E,0);
+
         // Allocate a transforms chain: contains all the transforms to execute before displaying
         //  an image
         TransformsChain transformsChain = new TransformsChain();

@@ -29,17 +29,10 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-            <meta-data android:name="com.google.android.apps.drive.APP_ID" android:value="id=1234567890" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
-                <data android:mimeType="application/vnd.google-apps.drive-sdk.1234567890" />
-                <data android:mimeType="image/png" />
-                <data android:mimeType="image/jpeg" />
-                <data android:mimeType="image/jpg" />
             </intent-filter>
         </activity>
 
@@ -48,17 +41,12 @@
                   android:parentActivityName=".MainActivity">
         </activity>
 
-        <activity android:name=".Animation"
-                  android:label="Animation"
-                  android:parentActivityName=".ScreenSlideActivity">
-        </activity>
-
         <activity android:name=".ScreenSlideActivity"
                   android:label="@string/title_screen_slide"
-                  android:parentActivityName=".MainActivity"
+                  android:parentActivityName=".MedicalTestListActivity"
                   android:uiOptions="splitActionBarWhenNarrow">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".MainActivity" />
+                       android:value=".MedicalTestListActivity" />
         </activity>
     </application>
 
