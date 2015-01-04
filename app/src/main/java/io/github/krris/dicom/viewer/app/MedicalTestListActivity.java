@@ -60,7 +60,7 @@ public class MedicalTestListActivity extends ListActivity {
         // Instantiate the list of samples.
 
         ArrayList<Sample> samples = new ArrayList<>();
-        for (MedicalTest test : patient.getAllMedicalTests()) {
+        for (MedicalTest test : patient.getMedicalTests().values()) {
             samples.add(new Sample(test.getName(), ScreenSlideActivity.class));
         }
 

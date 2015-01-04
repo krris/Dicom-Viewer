@@ -1,43 +1,37 @@
 package io.github.krris.dicom.viewer.app;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by krris on 28.12.14.
  * Copyright (c) 2014 krris. All rights reserved.
  */
 public class MedicalTest {
-    private String name = "DEFAULT NAME";
-    private Images images = new Images();
+    private String name;
+    private Map<String, Series> series = new HashMap<>();
 
     public MedicalTest(String testName) {
         this.name = testName;
     }
 
-    public void setPathsToImages(List<String> paths) {
-        this.images.setPathsToImages(paths);
+    public void addOneImage(DicomData dicomData) {
+        String seriesName = dicomData.getSeriesName();
+        String imagePath = dicomData.getPath();
+        if (seriesExists(seriesName)) {
+            this.series.get(seriesName).addImage(imagePath);
+        } else {
+            Series s = new Series(seriesName);
+            s.addImage(imagePath);
+            this.series.put(seriesName, s);
+        }
     }
 
-    public void setPathsToImages(File[] paths) {
-        ArrayList<String> pathsToImages = new ArrayList<>();
-        for (File file : paths)
-            pathsToImages.add(file.getAbsolutePath());
-
-        this.images.setPathsToImages(pathsToImages);
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    private boolean seriesExists(String seriesName) {
+        return this.series.containsKey(seriesName);
     }
 
     public String getName() {
         return name;
-    }
-
-    public Images getImages() {
-        return images;
     }
 }

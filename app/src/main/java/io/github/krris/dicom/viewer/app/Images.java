@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Images {
     private int currentImage = 0;
-    private List<String> paths;
+    private List<String> paths = new ArrayList<>();
 
     public int getImagesSize() {
         return paths.size();
@@ -29,6 +29,10 @@ public class Images {
         } else {
             currentImage++;
         }
+    }
+
+    public void addImage(String path) {
+        this.paths.add(path);
     }
 
     public String getCurrentImage() {

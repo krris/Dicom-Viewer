@@ -20,6 +20,7 @@ import net.rdrei.android.dirchooser.DirectoryChooserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The launchpad activity for this sample project. This activity launches other activities that
@@ -75,9 +76,9 @@ public class MainActivity extends ListActivity {
     }
 
     private void instantiateList() {
-        List<Patient> patients = Patients.getInstance().getAllPatients();
+        Map<String, Patient> patients = Patients.getInstance().getAllPatients();
         List<Sample> samples = new ArrayList<>();
-        for (Patient patient : patients) {
+        for (Patient patient : patients.values()) {
             samples.add(new Sample(patient.getName(), MedicalTestListActivity.class));
         }
         mSamples = samples.toArray(new Sample[samples.size()]);
@@ -92,8 +93,8 @@ public class MainActivity extends ListActivity {
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         // Launch the sample associated with this list position.
         Intent intent = new Intent(MainActivity.this, mSamples[position].activityClass);
-        ArrayList<Patient> patients = (ArrayList<Patient>) Patients.getInstance().getAllPatients();
-        intent.putExtra("patient_name", patients.get(position).getName());
+         patients = Patients.getInstance().getAllPatients();
+        intent.putExtra("patient_name", mSamples[position].getName());
         startActivity(intent);
     }
 
