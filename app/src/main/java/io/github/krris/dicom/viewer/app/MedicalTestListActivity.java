@@ -65,15 +65,6 @@ public class MedicalTestListActivity extends ListActivity {
         }
 
         mSamples = samples.toArray(new Sample[samples.size()]);
-
-//        mSamples = new Sample[]{
-//                new Sample(R.string.title_crossfade, CrossfadeActivity.class),
-//                new Sample(R.string.title_card_flip, CardFlipActivity.class),
-//                new Sample(R.string.title_screen_slide, ScreenSlideActivity.class)
-//                new Sample(R.string.title_zoom, ZoomActivity.class),
-//                new Sample(R.string.title_layout_changes, LayoutChangesActivity.class),
-//        };
-
         setListAdapter(new ArrayAdapter<Sample>(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,

@@ -62,8 +62,8 @@ public class ScreenSlidePageFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-//        this.timer.cancel();
-//        this.timer.purge();
+        this.timer.cancel();
+        this.timer.purge();
     }
 
     @Override
@@ -103,6 +103,7 @@ public class ScreenSlidePageFragment extends Fragment {
                     timer.cancel();
                     timer.purge();
                 } else {
+                    timer = new Timer();
                     timer.schedule(new TickClass(), 500, 500);
                 }
                 animationRunning = !animationRunning;
