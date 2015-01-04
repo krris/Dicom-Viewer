@@ -43,4 +43,13 @@ public class Patient {
     public Map<String, MedicalTest> getMedicalTests() {
         return medicalTests;
     }
+
+
+    public Map<String, Series> getAllSeries(String medicalTestName) {
+        return medicalTests.get(medicalTestName).getAllSeries();
+    }
+
+    public MedicalTest getMedicalTest(String medicalTestName) {
+        return this.medicalTests.get(medicalTestName);
+    }
 }

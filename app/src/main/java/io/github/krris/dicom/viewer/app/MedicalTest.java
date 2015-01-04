@@ -34,4 +34,12 @@ public class MedicalTest {
     public String getName() {
         return name;
     }
+
+    public Map<String, Series> getAllSeries() {
+        return this.series;
+    }
+
+    public Series getSeries(String seriesName) {
+        return this.series.get(seriesName);
+    }
 }

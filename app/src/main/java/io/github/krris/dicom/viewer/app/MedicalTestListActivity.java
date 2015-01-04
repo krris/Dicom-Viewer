@@ -20,25 +20,6 @@ public class MedicalTestListActivity extends ListActivity {
     private Patient patient;
 
     /**
-     * This class describes an individual sample (the sample title, and the activity class that
-     * demonstrates this sample).
-     */
-    private class Sample {
-        private CharSequence title;
-        private Class<? extends Activity> activityClass;
-
-        public Sample(String title, Class<? extends Activity> activityClass) {
-            this.activityClass = activityClass;
-            this.title = title;
-        }
-
-        @Override
-        public String toString() {
-            return title.toString();
-        }
-    }
-
-    /**
      * The collection of all samples in the app. This gets instantiated in {@link
      * #onCreate(android.os.Bundle)} because the {@link Sample} constructor needs access to {@link
      * android.content.res.Resources}.
@@ -61,7 +42,7 @@ public class MedicalTestListActivity extends ListActivity {
 
         ArrayList<Sample> samples = new ArrayList<>();
         for (MedicalTest test : patient.getMedicalTests().values()) {
-            samples.add(new Sample(test.getName(), ScreenSlideActivity.class));
+            samples.add(new Sample(test.getName(), SeriesListActivity.class));
         }
 
         mSamples = samples.toArray(new Sample[samples.size()]);
@@ -74,9 +55,8 @@ public class MedicalTestListActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         // Launch the sample associated with this list position.
-        Intent intent = new Intent(MedicalTestListActivity.this, mSamples[position].activityClass);
-        ArrayList<MedicalTest> medicalTests = (ArrayList<MedicalTest>) Patients.getInstance().getPatient(patient.getName()).getAllMedicalTests();
-        intent.putExtra("medical_test", medicalTests.get(position).getName());
+        Intent intent = new Intent(MedicalTestListActivity.this, mSamples[position].getActivityClass());
+        intent.putExtra("medical_test", mSamples[position].getTitle());
         intent.putExtra("patient_name", patient.getName());
         startActivity(intent);
     }

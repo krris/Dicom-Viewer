@@ -31,25 +31,6 @@ public class MainActivity extends ListActivity {
     private static final String TAG = "FileChooserExampleActivity";
 
     /**
-     * This class describes an individual sample (the sample title, and the activity class that
-     * demonstrates this sample).
-     */
-    private class Sample {
-        private CharSequence title;
-        private Class<? extends Activity> activityClass;
-
-        public Sample(String string, Class<? extends Activity> activityClass) {
-            this.activityClass = activityClass;
-            this.title = string;
-        }
-
-        @Override
-        public String toString() {
-            return title.toString();
-        }
-    }
-
-    /**
      * The collection of all samples in the app. This gets instantiated in {@link
      * #onCreate(android.os.Bundle)} because the {@link Sample} constructor needs access to {@link
      * android.content.res.Resources}.
@@ -92,9 +73,8 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         // Launch the sample associated with this list position.
-        Intent intent = new Intent(MainActivity.this, mSamples[position].activityClass);
-         patients = Patients.getInstance().getAllPatients();
-        intent.putExtra("patient_name", mSamples[position].getName());
+        Intent intent = new Intent(MainActivity.this, mSamples[position].getActivityClass());
+        intent.putExtra("patient_name", mSamples[position].getTitle());
         startActivity(intent);
     }
 

@@ -20,10 +20,12 @@ public class Animation extends Activity {
 
     public static final String ARG_PATIENT_NAME= "patient_name";
     public static final String ARG_MEDICAL_TEST_NAME= "medical_test_name";
+    public static final String ARG_SERIES_NAME= "series_name";
 
     private String mPatientName;
     private String mMedicalTestName;
     private Images images;
+    private String mSeriesName;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +37,11 @@ public class Animation extends Activity {
             Log.i("ARG_PATIENT_NAME", mPatientName);
             mMedicalTestName = extras.getString(ARG_MEDICAL_TEST_NAME);
             Log.i("ARG_MEDICAL_TEST_NAME", mMedicalTestName);
+            mSeriesName = extras.getString(ARG_SERIES_NAME);
 
             Patient patient = Patients.getInstance().getPatient(mPatientName);
-            MedicalTest medicalTest = patient.getMedicalTest(mMedicalTestName);
-            this.images = medicalTest.getImages();
+            Series series = patient.getMedicalTest(mMedicalTestName).getSeries(mSeriesName);
+            this.images = series.getImages();
         }
 
         this.handler = new MyHandler();

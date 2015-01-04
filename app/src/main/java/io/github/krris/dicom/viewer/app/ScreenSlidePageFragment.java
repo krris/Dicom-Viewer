@@ -26,8 +26,7 @@ public class ScreenSlidePageFragment extends Fragment {
     public static final String ARG_PAGE = "page";
     public static final String ARG_PATIENT_NAME= "patient_name";
     public static final String ARG_MEDICAL_TEST_NAME= "medical_test_name";
-
-    private MedicalTest medicalTest;
+    public static final String ARG_SERIES_NAME= "series_name";
 
     /**
      * The fragment's page number, which is set to the argument value for {@link #ARG_PAGE}.
@@ -35,23 +34,26 @@ public class ScreenSlidePageFragment extends Fragment {
     private int mPageNumber;
     private String mPatientName;
     private String mMedicalTestName;
+    private String mSeriesName;
 
     private Timer timer;
     private MyHandler handler;
     private Images images;
-    private DicomView imageView;
 
+    private DicomView imageView;
     private boolean animationRunning = false;
+    private Series series;
 
     /**
      * Factory method for this fragment class. Constructs a new fragment for the given page number.
      */
-    public static ScreenSlidePageFragment create(int pageNumber, String patientName, String medicalTestName) {
+    public static ScreenSlidePageFragment create(int pageNumber, String patientName, String medicalTestName, String seriesName) {
         ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNumber);
         args.putString(ARG_PATIENT_NAME, patientName);
         args.putString(ARG_MEDICAL_TEST_NAME, medicalTestName);
+        args.putString(ARG_SERIES_NAME, seriesName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,11 +74,13 @@ public class ScreenSlidePageFragment extends Fragment {
         mPageNumber = getArguments().getInt(ARG_PAGE);
         mMedicalTestName = getArguments().getString(ARG_MEDICAL_TEST_NAME);
         mPatientName = getArguments().getString(ARG_PATIENT_NAME);
+        mSeriesName = getArguments().getString(ARG_SERIES_NAME);
         Log.i("mPageNumber: ", "" + mPageNumber);
         Log.i("mPatientName: ", "" + mPatientName);
         Log.i("mMedicalTestName: ", "" + mMedicalTestName);
-        this.medicalTest = Patients.getInstance().getPatient(mPatientName).getMedicalTest(mMedicalTestName);
-        this.images = medicalTest.getImages();
+        Log.i("mSeriesName: ", "" + mSeriesName);
+        this.series = Patients.getInstance().getPatient(mPatientName).getMedicalTest(mMedicalTestName).getSeries(mSeriesName);
+        this.images = series.getImages();
 
         this.handler = new MyHandler();
         this.timer= new Timer();
@@ -110,7 +114,7 @@ public class ScreenSlidePageFragment extends Fragment {
             }
         });
 
-        displayDicomImage(medicalTest.getImages().getImage(mPageNumber));
+        displayDicomImage(series.getImages().getImage(mPageNumber));
 
         return rootView;
     }
