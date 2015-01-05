@@ -38,5 +38,7 @@
     <string name="chooser_title">Chooser title</string>
     <string name="animation">Play/Stop</string>
     <string name="choose_a_file">Choose a file</string>
+    <string name="title_single_shot">Welcome to Dicom Viewer!</string>
+    <string name="R_string_desc_single_shot">Choose a file or directory containing DICOM images.</string>
 
 </resources>

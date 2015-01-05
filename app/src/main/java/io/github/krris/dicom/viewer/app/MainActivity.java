@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ public class MainActivity extends ListActivity {
      * android.content.res.Resources}.
      */
     private static Sample[] mSamples;
+    private ListView listView;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,15 @@ public class MainActivity extends ListActivity {
                 showChooser();
             }
         });
+
+        Target viewTarget = new ViewTarget(R.id.choose_file_button, this);
+        new ShowcaseView.Builder(this, true)
+                .setTarget(viewTarget)
+                .setContentTitle(R.string.title_single_shot)
+                .setContentText(R.string.R_string_desc_single_shot)
+                .singleShot(42)
+                .build();
+
     }
 
     private void instantiateList() {
