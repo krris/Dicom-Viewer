@@ -1,25 +1,26 @@
+apply plugin: 'com.android.application'
+
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.2'
+        classpath 'com.android.tools.build:gradle:2.3.3'
     }
 }
-apply plugin: 'com.android.application'
 
 repositories {
-        jcenter()
+    jcenter()
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "21.0.2"
+    compileSdkVersion defaultCompileSdkVersion
+    buildToolsVersion defaultBuildToolsVersion
 
     defaultConfig {
         applicationId "io.github.krris.dicom.viewer.app"
-        minSdkVersion 14
-        targetSdkVersion 19
+        minSdkVersion defaultMinSdkVersion
+        targetSdkVersion defaultTargetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -30,7 +31,7 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -38,8 +39,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:21.0.+'
-    compile 'com.android.support:support-v13:21.0.+'
+    compile "com.android.support:support-v4:$defaultSupportLibVersion"
+    compile "com.android.support:support-v13:$defaultSupportLibVersion"
     compile 'net.rdrei.android.dirchooser:library:2.1@aar'
     compile files('libs/imebra_android.jar')
     compile project(':libraries:aFileChooser')
