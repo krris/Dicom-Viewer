@@ -5,12 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
-}
-
-repositories {
-    jcenter()
 }
 
 android {
@@ -47,6 +43,6 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'com.google.apis:google-api-services-drive:v2-rev155-1.19.0'
     compile 'com.google.android.gms:play-services:6.5.+'
-    compile 'commons-io:commons-io:2.4'
-    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
+    compile 'commons-io:commons-io:2.6'
+    compile 'com.github.amlcurran.showcaseview:library:5.4.1'
 }
