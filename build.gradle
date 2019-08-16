@@ -1,29 +1,23 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.4.2'
     }
 }
 
 ext {
-    defaultCompileSdkVersion = 27
+    defaultCompileSdkVersion = 28
     defaultMinSdkVersion = 16
-    defaultTargetSdkVersion = 27
-    defaultBuildToolsVersion = "26.0.3"
-    defaultSupportLibVersion = "27.1.0"
+    defaultTargetSdkVersion = 28
+    defaultSupportLibVersion = "28.0.0"
 }
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
 }
