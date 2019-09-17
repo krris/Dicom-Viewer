@@ -31,8 +31,8 @@ dependencies {
     implementation files('libs/imebra_android.jar')
     implementation project(':libraries:aFileChooser')
     implementation 'junit:junit:4.12'
-    implementation 'com.google.apis:google-api-services-drive:v2-rev155-1.19.0'
-    implementation 'com.google.android.gms:play-services:6.5.+'
+    //implementation 'com.google.apis:google-api-services-drive:v2-rev155-1.19.0'
+//    implementation 'com.google.android.gms:play-services:6.5.+'
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.github.amlcurran.showcaseview:library:5.4.1'
 }
